@@ -1,1 +1,17 @@
-<p>create-post works!</p>
+<mat-card>
+    <form #createForm="ngForm">
+        <mat-form-field class="example-full-width" appearance="fill">
+            <input matInput placeholder="Title" name="title" #title="ngModel" ngModel required minlength="3" />
+            <mat-error *ngIf="title.invalid">title must be atleast 3 charachters long</mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="example-full-width" appearance="fill">
+            <textarea matInput placeholder="Content" #content="ngModel" name="content" ngModel required minlength="15"></textarea>
+            <mat-error *ngIf="content.invalid">content must be atleast 15 charachters long</mat-error>
+        </mat-form-field>
+
+        <button class="Submit-btn" [disabled]="createForm.invalid" mat-raised-button color="primary" type="submit">
+      Submit
+    </button>
+    </form>
+</mat-card>
