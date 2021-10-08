@@ -1,0 +1,17 @@
+.spacer {
+    flex: 1 1 auto;
+}
+
+ul {
+    list-style: none;
+    margin-right: 3rem;
+}
+
+li {
+    margin-left: 1rem;
+    display: inline-block;
+}
+
+a {
+    text-decoration: none;
+}
