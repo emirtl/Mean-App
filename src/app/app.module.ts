@@ -6,9 +6,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CreatePostComponent } from './posts/create-post/create-post.component';
 
 @NgModule({
-  declarations: [AppComponent, HeaderComponent],
+  declarations: [AppComponent, HeaderComponent, CreatePostComponent],
   imports: [BrowserModule, NoopAnimationsModule, MatToolbarModule],
   providers: [],
   bootstrap: [AppComponent],
