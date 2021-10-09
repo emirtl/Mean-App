@@ -1,8 +1,8 @@
-<mat-accordion>
-    <mat-expansion-panel>
+<mat-accordion *ngIf="posts.length > 0" multi="true">
+    <mat-expansion-panel *ngFor="let item of posts">
         <mat-expansion-panel-header>
-            This is the primary header of the panel.
+            <p>{{ item.title }}</p>
         </mat-expansion-panel-header>
-        <p>This is the primary content of the panel.</p>
+        <p>{{ item.content }}</p>
     </mat-expansion-panel>
 </mat-accordion>

@@ -1,7 +1,7 @@
 <mat-card>
-    <form #createForm="ngForm">
+    <form (submit)="onSubmit(createForm)" #createForm="ngForm">
         <mat-form-field class="example-full-width" appearance="fill">
-            <input matInput placeholder="Title" name="title" #title="ngModel" ngModel required minlength="3" />
+            <input matInput placeholder="Title" type="text" name="title" #title="ngModel" ngModel required minlength="3" />
             <mat-error *ngIf="title.invalid">
                 <p>title must be atleast 3 charachters long</p>
             </mat-error>
