@@ -46,4 +46,10 @@ export class PostService {
         this.router.navigate(['/']);
       });
   }
+
+  deletePost(postId: String) {
+    return this.httpClient.delete(
+      'http://localhost:3000/api/posts/delete-post/' + postId
+    );
+  }
 }
