@@ -18,10 +18,11 @@ export class CreatePostComponent implements OnInit {
       return;
     }
     const post: PostModel = {
-      id: 'asdasdasd',
+      id: '',
       title: form.value.title,
       content: form.value.content,
     };
+
     this.postService.addPost(post);
   }
 }
