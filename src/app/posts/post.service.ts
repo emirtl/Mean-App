@@ -29,6 +29,11 @@ export class PostService {
         this.updatedPosts.next([...this.posts]);
       });
   }
+  singlePost(postId: String | null) {
+    return this.httpClient.get<{ message: String; post: any }>(
+      'http://localhost:3000/api/posts/single-post/' + postId
+    );
+  }
 
   updatedPostListener() {
     return this.updatedPosts.asObservable();
@@ -40,14 +45,28 @@ export class PostService {
         post,
       })
       .subscribe((resData) => {
-        console.log(resData);
         this.posts.push(post);
         this.updatedPosts.next([...this.posts]);
         this.router.navigate(['/']);
       });
   }
+  editPost(postId: String | null, post: PostModel) {
+    const postObj: PostModel = {
+      id: postId,
+      title: post.title,
+      content: post.content,
+    };
+    return this.httpClient
+      .post<{ message: String }>('http://localhost:3000/api/posts/post-edit', {
+        postObj,
+      })
+      .subscribe((resData) => {
+        console.log(resData.message);
+        this.router.navigate(['/']);
+      });
+  }
 
-  deletePost(postId: String) {
+  deletePost(postId: String | null) {
     return this.httpClient.delete(
       'http://localhost:3000/api/posts/delete-post/' + postId
     );

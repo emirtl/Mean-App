@@ -1,5 +1,5 @@
 export interface PostModel {
-  id: String;
+  id: String | null;
   title: String;
   content: String;
 }

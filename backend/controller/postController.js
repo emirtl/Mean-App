@@ -20,6 +20,27 @@ exports.getPosts = async(req, res, next) => {
     }
 };
 
+exports.singlePost = async(req, res, next) => {
+    const postId = req.params.postId;
+    if (!postId) {
+        return res.status(500).json({
+            message: "sth went wrong. please try later",
+        });
+    }
+    try {
+        const post = await Post.findById(postId).exec();
+
+        return res.status(200).json({
+            message: "fetching single post succeded",
+            post: post,
+        });
+    } catch (error) {
+        return res.status(500).json({
+            message: "fetching post failed",
+        });
+    }
+};
+
 exports.post = async(req, res, next) => {
     try {
         const post = new Post({
@@ -33,6 +54,35 @@ exports.post = async(req, res, next) => {
     } catch (error) {
         return res.status(500).json({
             message: "post creation failed",
+        });
+    }
+};
+
+exports.editPost = async(req, res, next) => {
+    const postId = req.body.postObj.id;
+    console.log(postId);
+    if (!postId) {
+        return res.status(500).json({
+            message: "editing post failed.please try later",
+        });
+    }
+    try {
+        const post = await Post.findOne({ _id: postId }).exec();
+        if (!post) {
+            return res.status(500).json({
+                message: "editing post failed.please try later",
+            });
+        } else {
+            post.title = req.body.postObj.title;
+            post.content = req.body.postObj.content;
+            await post.save();
+            return res.status(200).json({
+                message: "editing post succeded",
+            });
+        }
+    } catch (error) {
+        return res.status(500).json({
+            message: "editing post failed.",
         });
     }
 };
