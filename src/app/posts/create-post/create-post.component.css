@@ -13,3 +13,19 @@ mat-card {
 .Submit-btn {
     margin-top: 1rem;
 }
+
+.img-picker {
+    margin-top: 0.3rem;
+}
+
+input[type="file"] {
+    visibility: hidden;
+}
+
+.image-container {
+    width: 100%;
+}
+
+.image-container img {
+    width: 10rem;
+}

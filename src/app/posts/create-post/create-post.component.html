@@ -1,20 +1,30 @@
 <mat-card>
-    <form (submit)="onSubmit(createForm)" #createForm="ngForm">
+    <form (submit)="onSubmit()" [formGroup]="form">
         <mat-form-field class="example-full-width" appearance="fill">
-            <input matInput placeholder="Title" type="text" name="title" #title="ngModel" [ngModel]="post?.title" required minlength="3" />
-            <mat-error *ngIf="title.invalid">
+            <input matInput placeholder="Title" type="text" name="title" formControlName="title" />
+            <mat-error *ngIf="form.get('title')!.invalid">
                 <p>title must be atleast 3 charachters long</p>
             </mat-error>
         </mat-form-field>
 
-        <mat-form-field class="example-full-width" appearance="fill">
-            <textarea matInput placeholder="Content" #content="ngModel" name="content" [ngModel]="post?.content" required minlength="15"></textarea>
-            <mat-error *ngIf="content.invalid">
-                <p>content must be atleast 15 charachters long</p>
+        <button class="img-picker" mat-stroked-button type="button" (click)="fileInput.click()">
+      Pick Image
+    </button>
+
+        <input type="file" #fileInput (change)="onImagePicked($event)" />
+
+        <div class="image-container">
+            <img [src]="imagePreview" [alt]="form.value.title" *ngIf="imagePreview && form.get('image')!.valid" />
+        </div>
+
+        <mat-form-field class="example-full-width" appearance="fill" style="margin-top: 1.2rem">
+            <textarea matInput placeholder="Content" name="content" formControlName="content"></textarea>
+            <mat-error *ngIf="form.get('content')!.invalid">
+                <p>content must be atleast 10 charachters long</p>
             </mat-error>
         </mat-form-field>
 
-        <button class="Submit-btn" [disabled]="createForm.invalid" mat-raised-button color="primary" type="submit">
+        <button class="Submit-btn" mat-raised-button color="primary" type="submit">
       Submit
     </button>
     </form>

@@ -47,7 +47,7 @@ exports.post = async(req, res, next) => {
             title: req.body.post.title,
             content: req.body.post.content,
         });
-        const createdPost = await post.save();
+        await post.save();
         return res.status(201).json({
             message: "post created successfully",
         });
