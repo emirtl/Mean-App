@@ -14,23 +14,30 @@ export class PostService {
 
   getPosts() {
     return this.httpClient
-      .get<{ message: String; posts: any }>(
+      .get<{ message: string; posts: any }>(
         'http://localhost:3000/api/posts/getPosts'
       )
       .pipe(
         map((data) => {
           return data.posts.map((p: any) => {
-            return { title: p.title, content: p.content, id: p._id };
+            return {
+              title: p.title,
+              content: p.content,
+              id: p._id,
+              image: p.image,
+            };
           });
         })
       )
       .subscribe((resData) => {
+        console.log('getPosts : ', resData);
+
         this.posts = resData;
         this.updatedPosts.next([...this.posts]);
       });
   }
-  singlePost(postId: String | null) {
-    return this.httpClient.get<{ message: String; post: any }>(
+  singlePost(postId: string | null) {
+    return this.httpClient.get<{ message: string; post: any }>(
       'http://localhost:3000/api/posts/single-post/' + postId
     );
   }
@@ -40,33 +47,41 @@ export class PostService {
   }
 
   addPost(post: PostModel) {
-    return this.httpClient
-      .post<{ message: String }>('http://localhost:3000/api/posts/post', {
-        post,
-      })
-      .subscribe((resData) => {
+    const postData = new FormData();
+    postData.append('title', post.title);
+    postData.append('content', post.content);
+    postData.append('image', post.image, post.title);
+
+    this.httpClient
+      .post<{ message: string; image: string }>(
+        'http://localhost:3000/api/posts/post',
+        postData
+      )
+      .subscribe(() => {
         this.posts.push(post);
         this.updatedPosts.next([...this.posts]);
         this.router.navigate(['/']);
       });
   }
-  editPost(postId: String | null, post: PostModel) {
+  editPost(postId: string | null, post: PostModel) {
     const postObj: PostModel = {
       id: postId,
       title: post.title,
       content: post.content,
+      image: '',
     };
     return this.httpClient
-      .post<{ message: String }>('http://localhost:3000/api/posts/post-edit', {
-        postObj,
-      })
+      .post<{ message: string }>(
+        'http://localhost:3000/api/posts/post-edit',
+        postObj
+      )
       .subscribe((resData) => {
         console.log(resData.message);
         this.router.navigate(['/']);
       });
   }
 
-  deletePost(postId: String | null) {
+  deletePost(postId: string | null) {
     return this.httpClient.delete(
       'http://localhost:3000/api/posts/delete-post/' + postId
     );

@@ -15,7 +15,7 @@ export class CreatePostComponent implements OnInit {
   public form!: FormGroup;
   public imagePreview: String | ArrayBuffer | null = '';
   private state: string = 'create';
-  private postId: String | null = '';
+  private postId: string | null = '';
   constructor(
     private postService: PostService,
     private activatedRoute: ActivatedRoute
@@ -31,7 +31,6 @@ export class CreatePostComponent implements OnInit {
       }),
       image: new FormControl(null, {
         validators: [Validators.required],
-        asyncValidators: [mimeType],
       }),
     });
     this.activatedRoute.paramMap.subscribe((param: ParamMap) => {
@@ -43,11 +42,12 @@ export class CreatePostComponent implements OnInit {
             id: resData.post._id,
             content: resData.post.content,
             title: resData.post.title,
+            image: resData.image,
           };
           this.form?.setValue({
             title: this.post?.title,
             content: this.post?.content,
-            image: '',
+            image: this.post.image,
           });
         });
       } else {
@@ -65,6 +65,7 @@ export class CreatePostComponent implements OnInit {
       id: '',
       title: this.form.value.title,
       content: this.form.value.content,
+      image: this.form.value.image,
     };
     if (this.state === 'create') {
       this.postService.addPost(post);
@@ -82,7 +83,6 @@ export class CreatePostComponent implements OnInit {
     const reader = new FileReader();
     reader.onload = () => {
       this.imagePreview = reader.result;
-      console.log(reader.result);
     };
     reader.readAsDataURL(file);
   }

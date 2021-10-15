@@ -1,5 +1,6 @@
 export interface PostModel {
-  id: String | null;
-  title: String;
-  content: String;
+  id: string | null;
+  title: string;
+  content: string;
+  image: string | File;
 }

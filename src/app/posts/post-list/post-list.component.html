@@ -4,6 +4,9 @@
             <p>{{ item.title }}</p>
         </mat-expansion-panel-header>
         <p>{{ item.content }}</p>
+        <div class="image-container">
+            <img [src]="item.image" [alt]="item.title" />
+        </div>
         <mat-action-row>
             <button mat-raised-button color="primary" [routerLink]="['/edit', item.id]">
         Edit

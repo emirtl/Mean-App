@@ -29,7 +29,6 @@ exports.singlePost = async(req, res, next) => {
     }
     try {
         const post = await Post.findById(postId).exec();
-
         return res.status(200).json({
             message: "fetching single post succeded",
             post: post,
@@ -43,13 +42,17 @@ exports.singlePost = async(req, res, next) => {
 
 exports.post = async(req, res, next) => {
     try {
+        const path = req.protocol + "://" + req.get("host");
         const post = new Post({
-            title: req.body.post.title,
-            content: req.body.post.content,
+            title: req.body.title,
+            content: req.body.content,
+            image: path + "/images/" + req.file.filename,
         });
-        await post.save();
+        const createdPost = await post.save();
+
         return res.status(201).json({
             message: "post created successfully",
+            image: createdPost.image,
         });
     } catch (error) {
         return res.status(500).json({

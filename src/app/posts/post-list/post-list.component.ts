@@ -22,7 +22,7 @@ export class PostListComponent implements OnInit, OnDestroy {
         this.posts = resData;
       });
   }
-  onDelete(postId: String | null) {
+  onDelete(postId: string | null) {
     this.postService.deletePost(postId).subscribe((resData) => {
       this.postService.getPosts();
     });
