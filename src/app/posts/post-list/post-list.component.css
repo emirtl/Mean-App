@@ -21,7 +21,7 @@
 
 mat-expansion-panel {
     background-color: rgb(255, 255, 255);
-    box-shadow: rgba(32, 32, 32, 0.24) 0px 3px 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     color: black;
 }
 
@@ -31,6 +31,12 @@ mat-expansion-panel p {
     letter-spacing: 0.1rem;
     font-weight: 700;
     font-family: "Lato", sans-serif;
+    margin-top: 0.4rem;
+}
+
+mat-expansion-panel-header {
+    background-color: black !important;
+    color: white;
 }
 
 mat-expansion-panel-header p {
@@ -38,4 +44,15 @@ mat-expansion-panel-header p {
     font-weight: 700;
     font-size: 1.2rem;
     font-family: "Lato", sans-serif;
+}
+
+mat-accordion {
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+mat-paginator {
+    width: 65%;
+    margin: auto;
+    margin-top: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
