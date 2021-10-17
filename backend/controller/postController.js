@@ -62,13 +62,21 @@ exports.post = async(req, res, next) => {
 };
 
 exports.editPost = async(req, res, next) => {
-    const postId = req.body.postObj.id;
+    const postId = req.params.postId;
+    let image = req.body.image;
     console.log(postId);
+
     if (!postId) {
         return res.status(500).json({
             message: "editing post failed.please try later",
         });
     }
+
+    if (req.file) {
+        const url = req.protocol + "://" + req.get("host");
+        image = url + "/images/" + req.file.filename;
+    }
+
     try {
         const post = await Post.findOne({ _id: postId }).exec();
         if (!post) {
@@ -76,8 +84,9 @@ exports.editPost = async(req, res, next) => {
                 message: "editing post failed.please try later",
             });
         } else {
-            post.title = req.body.postObj.title;
-            post.content = req.body.postObj.content;
+            post.title = req.body.title;
+            post.content = req.body.content;
+            post.image = image;
             await post.save();
             return res.status(200).json({
                 message: "editing post succeded",

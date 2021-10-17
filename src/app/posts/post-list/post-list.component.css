@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;1,300&display=swap");
 .mat-form-field+.mat-form-field {
     margin-left: 8px;
 }
@@ -8,10 +9,33 @@
 }
 
 .image-container {
-    width: 100%;
+    width: 80%;
     margin: auto;
+    margin-top: 1rem;
 }
 
 .image-container img {
-    width: 60%;
+    width: 20rem;
+    margin: auto;
+}
+
+mat-expansion-panel {
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgba(32, 32, 32, 0.24) 0px 3px 8px;
+    color: black;
+}
+
+mat-expansion-panel p {
+    width: 80%;
+    margin: auto;
+    letter-spacing: 0.1rem;
+    font-weight: 700;
+    font-family: "Lato", sans-serif;
+}
+
+mat-expansion-panel-header p {
+    letter-spacing: 0.1rem;
+    font-weight: 700;
+    font-size: 1.2rem;
+    font-family: "Lato", sans-serif;
 }

@@ -64,16 +64,24 @@ export class PostService {
       });
   }
   editPost(postId: string | null, post: PostModel) {
-    const postObj: PostModel = {
-      id: postId,
-      title: post.title,
-      content: post.content,
-      image: '',
-    };
+    let postData: PostModel | FormData;
+    if (typeof post.image === 'object') {
+      postData = new FormData();
+      postData.append('title', post.title);
+      postData.append('content', post.content);
+      postData.append('image', post.image, post.title);
+    } else {
+      postData = {
+        id: postId,
+        title: post.title,
+        content: post.content,
+        image: post.image,
+      };
+    }
     return this.httpClient
       .post<{ message: string }>(
-        'http://localhost:3000/api/posts/post-edit',
-        postObj
+        'http://localhost:3000/api/posts/post-edit/' + postId,
+        postData
       )
       .subscribe((resData) => {
         console.log(resData.message);

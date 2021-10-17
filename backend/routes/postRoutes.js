@@ -36,7 +36,11 @@ router.post(
     controller.post
 );
 
-router.post("/post-edit", controller.editPost);
+router.post(
+    "/post-edit/:postId",
+    multer({ storage: storage }).single("image"),
+    controller.editPost
+);
 
 router.delete("/delete-post/:postId", controller.deletePost);
 
