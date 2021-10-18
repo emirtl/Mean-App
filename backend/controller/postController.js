@@ -1,12 +1,19 @@
 const Post = require("../models/post");
 
 exports.getPosts = async(req, res, next) => {
+    const pageIndex = +req.query.pageIndex || 1;
+    const ITEM_PER_PAGE = +req.query.pageSize || 3;
+
     try {
-        const posts = await Post.find().exec();
+        const totalPostItems = await Post.find().countDocuments();
+        const posts = await Post.find()
+            .skip((pageIndex - 1) * ITEM_PER_PAGE)
+            .limit(ITEM_PER_PAGE);
         if (posts) {
             return res.status(200).json({
                 message: "succedded",
                 posts: posts,
+                totalPostItems: totalPostItems,
             });
         } else {
             return res.status(200).json({
@@ -64,7 +71,6 @@ exports.post = async(req, res, next) => {
 exports.editPost = async(req, res, next) => {
     const postId = req.params.postId;
     let image = req.body.image;
-    console.log(postId);
 
     if (!postId) {
         return res.status(500).json({

@@ -11,28 +11,34 @@ import { PostService } from '../post.service';
 })
 export class PostListComponent implements OnInit, OnDestroy {
   posts: PostModel[] = [];
-  totalPosts = 20;
-  pageSize = 10;
+  totalPosts: number = 0;
+  pageSize: number = 0;
+  pageIndex: number = 0;
   private subscription!: Subscription;
 
   constructor(private postService: PostService) {}
 
   ngOnInit(): void {
-    this.postService.getPosts();
+    this.postService.getPosts(this.pageSize, this.pageIndex);
     this.subscription = this.postService
       .updatedPostListener()
-      .subscribe((resData: PostModel[]) => {
-        this.posts = resData;
+      .subscribe((resData: { posts: PostModel[]; totalPostItems: number }) => {
+        this.posts = resData.posts;
+        this.totalPosts = resData.totalPostItems;
       });
   }
   onDelete(postId: string | null) {
     this.postService.deletePost(postId).subscribe((resData) => {
-      this.postService.getPosts();
+      this.postService.getPosts(this.pageSize, this.pageIndex);
     });
   }
 
   onChangedPage(event: PageEvent) {
-    console.log(event);
+    this.pageIndex = event.pageIndex + 1;
+    // we do +1 beacause on our backends
+    // pageIndex is 1
+    this.pageSize = event.pageSize;
+    this.postService.getPosts(this.pageSize, this.pageIndex);
   }
   ngOnDestroy() {
     this.subscription.unsubscribe();

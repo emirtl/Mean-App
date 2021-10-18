@@ -3,37 +3,47 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
-
 import { PostModel } from './post.model';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
   private posts: PostModel[] = [];
-  updatedPosts = new Subject<PostModel[]>();
+
+  updatedPosts = new Subject<{
+    posts: PostModel[];
+    totalPostItems: number;
+  }>();
   constructor(private httpClient: HttpClient, private router: Router) {}
 
-  getPosts() {
+  getPosts(pageSize: number, pageIndex: number) {
+    const query = `?pageIndex=${pageIndex}&pageSize=${pageSize}`;
     return this.httpClient
-      .get<{ message: string; posts: any }>(
-        'http://localhost:3000/api/posts/getPosts'
-      )
+      .get<{
+        message: string;
+        posts: any;
+        totalPostItems: number;
+      }>('http://localhost:3000/api/posts/getPosts' + query)
       .pipe(
         map((data) => {
-          return data.posts.map((p: any) => {
-            return {
-              title: p.title,
-              content: p.content,
-              id: p._id,
-              image: p.image,
-            };
-          });
+          return {
+            posts: data.posts.map((p: any) => {
+              return {
+                title: p.title,
+                content: p.content,
+                id: p._id,
+                image: p.image,
+              };
+            }),
+            totalPostItems: data.totalPostItems,
+          };
         })
       )
       .subscribe((resData) => {
-        console.log('getPosts : ', resData);
-
-        this.posts = resData;
-        this.updatedPosts.next([...this.posts]);
+        this.posts = resData.posts;
+        this.updatedPosts.next({
+          posts: [...this.posts],
+          totalPostItems: resData.totalPostItems,
+        });
       });
   }
   singlePost(postId: string | null) {
@@ -58,8 +68,6 @@ export class PostService {
         postData
       )
       .subscribe(() => {
-        this.posts.push(post);
-        this.updatedPosts.next([...this.posts]);
         this.router.navigate(['/']);
       });
   }
@@ -83,8 +91,7 @@ export class PostService {
         'http://localhost:3000/api/posts/post-edit/' + postId,
         postData
       )
-      .subscribe((resData) => {
-        console.log(resData.message);
+      .subscribe(() => {
         this.router.navigate(['/']);
       });
   }
