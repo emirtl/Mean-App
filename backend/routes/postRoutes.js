@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const controller = require("../controller/postController");
-
+const isAuth = require("../middleware/is-Atuth");
 const multer = require("multer");
 
 const MIME_TYPE = {
@@ -32,16 +32,18 @@ router.get("/single-post/:postId", controller.singlePost);
 
 router.post(
     "/post",
+    isAuth,
     multer({ storage: storage }).single("image"),
     controller.post
 );
 
 router.post(
     "/post-edit/:postId",
+    isAuth,
     multer({ storage: storage }).single("image"),
     controller.editPost
 );
 
-router.delete("/delete-post/:postId", controller.deletePost);
+router.delete("/delete-post/:postId", isAuth, controller.deletePost);
 
 module.exports = router;

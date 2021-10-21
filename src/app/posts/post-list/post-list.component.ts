@@ -12,8 +12,8 @@ import { PostService } from '../post.service';
 export class PostListComponent implements OnInit, OnDestroy {
   posts: PostModel[] = [];
   totalPosts: number = 0;
-  pageSize: number = 0;
-  pageIndex: number = 0;
+  pageSize: number = 3;
+  pageIndex: number = 1;
   private subscription!: Subscription;
 
   constructor(private postService: PostService) {}

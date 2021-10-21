@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { AuthService } from '../authentication/auth.service';
 import { PostModel } from './post.model';
 
 @Injectable({ providedIn: 'root' })
@@ -13,7 +14,11 @@ export class PostService {
     posts: PostModel[];
     totalPostItems: number;
   }>();
-  constructor(private httpClient: HttpClient, private router: Router) {}
+  constructor(
+    private httpClient: HttpClient,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   getPosts(pageSize: number, pageIndex: number) {
     const query = `?pageIndex=${pageIndex}&pageSize=${pageSize}`;
@@ -57,6 +62,7 @@ export class PostService {
   }
 
   addPost(post: PostModel) {
+    const token = this.authService.getToken();
     const postData = new FormData();
     postData.append('title', post.title);
     postData.append('content', post.content);

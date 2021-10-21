@@ -2,13 +2,13 @@ const Post = require("../models/post");
 
 exports.getPosts = async(req, res, next) => {
     const pageIndex = +req.query.pageIndex || 1;
-    const ITEM_PER_PAGE = +req.query.pageSize || 3;
+    const pageSize = +req.query.pageSize || 3;
 
     try {
         const totalPostItems = await Post.find().countDocuments();
         const posts = await Post.find()
-            .skip((pageIndex - 1) * ITEM_PER_PAGE)
-            .limit(ITEM_PER_PAGE);
+            .skip((pageIndex - 1) * pageSize)
+            .limit(pageSize);
         if (posts) {
             return res.status(200).json({
                 message: "succedded",
@@ -16,7 +16,7 @@ exports.getPosts = async(req, res, next) => {
                 totalPostItems: totalPostItems,
             });
         } else {
-            return res.status(200).json({
+            return res.status(404).json({
                 message: "no posts exists",
             });
         }
