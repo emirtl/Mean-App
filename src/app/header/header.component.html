@@ -7,16 +7,20 @@
             <a mat-button routerLink="/">Posts</a>
         </li>
 
-        <li>
+        <li *ngIf="isUserAuthenticated">
             <a mat-button routerLink="/create">Create Post</a>
         </li>
 
-        <li>
+        <li *ngIf="!isUserAuthenticated">
             <a mat-button routerLink="/login">Login</a>
         </li>
 
-        <li>
+        <li *ngIf="!isUserAuthenticated">
             <a mat-button routerLink="/signup">Sign Up</a>
+        </li>
+
+        <li *ngIf="isUserAuthenticated">
+            <a mat-button>Sign out</a>
         </li>
     </ul>
 </mat-toolbar>

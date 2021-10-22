@@ -1,15 +1,21 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
 import { AuthModel } from './authModel';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private token: string = '';
+  private isAuthListner = new Subject<boolean>();
   constructor(private http: HttpClient, private router: Router) {}
 
   getToken() {
     return this.token;
+  }
+
+  getIsAuthListner() {
+    return this.isAuthListner.asObservable();
   }
 
   signUp(email: string, password: string) {
@@ -33,6 +39,8 @@ export class AuthService {
       )
       .subscribe((resData) => {
         this.token = resData.token;
+
+        this.isAuthListner.next(true);
         this.router.navigate(['/']);
       });
   }
