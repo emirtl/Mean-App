@@ -20,3 +20,10 @@ a {
 .brand a {
     color: white;
 }
+
+.list-btn--signOut a {
+    color: white;
+    text-decoration: none;
+    font-size: 0.6rem;
+    cursor: pointer;
+}

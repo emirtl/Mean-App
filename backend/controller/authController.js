@@ -48,9 +48,11 @@ exports.login = async(req, res, next) => {
             const token = await jwt.sign({ userId: existingUser._id, email: existingUser.email },
                 "GyOBOurZYjHoya1VeJJ3bniL4NRf8U1kENdFR1AhM33gwak2rZsvwoiN16L7XyWzcEYzVaENz0XoZiGRAK28KO2qBIzqOgOCMX0OGnmvJwYtBtAJiO3UoApiLg5JNnQIfdAyrOyWjogCtlEmir", { expiresIn: "1h" }
             );
-            return res
-                .status(200)
-                .json({ message: "logged in successfully", token: token });
+            return res.status(200).json({
+                message: "logged in successfully",
+                token: token,
+                expiresIn: 3600,
+            });
         }
     } catch (error) {
         return res.status(500).json({ message: "sth went wrong please try again" });
