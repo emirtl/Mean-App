@@ -37,6 +37,7 @@ export class PostService {
                 content: p.content,
                 id: p._id,
                 image: p.image,
+                creator: p.creator,
               };
             }),
             totalPostItems: data.totalPostItems,
@@ -44,6 +45,8 @@ export class PostService {
         })
       )
       .subscribe((resData) => {
+        console.log(resData);
+
         this.posts = resData.posts;
         this.updatedPosts.next({
           posts: [...this.posts],
@@ -84,12 +87,14 @@ export class PostService {
       postData.append('title', post.title);
       postData.append('content', post.content);
       postData.append('image', post.image, post.title);
+      postData.append('creator', '');
     } else {
       postData = {
         id: postId,
         title: post.title,
         content: post.content,
         image: post.image,
+        creator: '',
       };
     }
     return this.httpClient

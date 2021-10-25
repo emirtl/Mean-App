@@ -52,6 +52,7 @@ exports.login = async(req, res, next) => {
                 message: "logged in successfully",
                 token: token,
                 expiresIn: 3600,
+                userId: existingUser._id,
             });
         }
     } catch (error) {

@@ -43,6 +43,7 @@ export class CreatePostComponent implements OnInit {
             content: resData.post.content,
             title: resData.post.title,
             image: resData.post.image,
+            creator: resData.post.creator,
           };
 
           this.form?.setValue({
@@ -67,6 +68,7 @@ export class CreatePostComponent implements OnInit {
       title: this.form.value.title,
       content: this.form.value.content,
       image: this.form.value.image,
+      creator: '',
     };
     if (this.state === 'create') {
       this.postService.addPost(post);

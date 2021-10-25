@@ -36,6 +36,10 @@ exports.singlePost = async(req, res, next) => {
     }
     try {
         const post = await Post.findById(postId).exec();
+
+        if (req.user !== post.userId) {
+            return;
+        }
         return res.status(200).json({
             message: "fetching single post succeded",
             post: post,
@@ -54,9 +58,9 @@ exports.post = async(req, res, next) => {
             title: req.body.title,
             content: req.body.content,
             image: path + "/images/" + req.file.filename,
+            creator: req.userId,
         });
         const createdPost = await post.save();
-
         return res.status(201).json({
             message: "post created successfully",
             image: createdPost.image,
@@ -84,7 +88,10 @@ exports.editPost = async(req, res, next) => {
     }
 
     try {
-        const post = await Post.findOne({ _id: postId }).exec();
+        const post = await Post.findOne({
+            _id: postId,
+            creator: req.userId,
+        }).exec();
         if (!post) {
             return res.status(500).json({
                 message: "editing post failed.please try later",
@@ -93,7 +100,13 @@ exports.editPost = async(req, res, next) => {
             post.title = req.body.title;
             post.content = req.body.content;
             post.image = image;
-            await post.save();
+            post.creator = req.userId;
+            const result = await post.save();
+            if (!result) {
+                return res.status(200).json({
+                    message: "editing post failed.pls try later",
+                });
+            }
             return res.status(200).json({
                 message: "editing post succeded",
             });
@@ -107,14 +120,20 @@ exports.editPost = async(req, res, next) => {
 
 exports.deletePost = async(req, res, next) => {
     const postId = req.params.postId;
-    console.log(postId);
+
     if (!postId) {
         return res.status(500).json({
             message: "sth went wrong. please try later",
         });
     }
+
     try {
-        await Post.findByIdAndRemove(postId);
+        const result = await Post.deleteOne({ _id: postId, creator: req.userId });
+        if (!result) {
+            return res.status(200).json({
+                message: "deletion post failed . pls try later",
+            });
+        }
         return res.status(200).json({
             message: "post deletion succeeded",
         });

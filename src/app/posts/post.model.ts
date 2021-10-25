@@ -3,4 +3,5 @@ export interface PostModel {
   title: string;
   content: string;
   image: string | File;
+  creator: string;
 }

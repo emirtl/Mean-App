@@ -22,5 +22,6 @@ module.exports = (req, res, next) => {
     if (!decodedToken) {
         return res.json(401).json({ message: "you are not authorized" });
     }
+    req.userId = decodedToken.userId;
     next();
 };
