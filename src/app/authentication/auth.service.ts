@@ -35,18 +35,22 @@ export class AuthService {
         this.token = resData.token;
         if (this.token) {
           const expiresIn = resData.expiresIn;
-          this.timeOutDeletion = setTimeout(() => {
-            this.logOut();
-          }, expiresIn * 1000);
+          this.logOutTimer(expiresIn);
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresIn * 1000);
-          this.saveAuthData(this.token, expirationDate);
+          this.setAuthCookie(this.token, expirationDate);
           console.log(expirationDate);
           this.isAuth = true;
           this.isAuthListner.next(true);
         }
         this.router.navigate(['/']);
       });
+  }
+
+  logOutTimer(expiresIn: number) {
+    this.timeOutDeletion = setTimeout(() => {
+      this.logOut();
+    }, expiresIn * 1000);
   }
 
   getToken() {
@@ -69,13 +73,40 @@ export class AuthService {
     clearTimeout(this.timeOutDeletion);
     this.router.navigate(['/']);
   }
-  private saveAuthData(token: string, expirationData: Date) {
+  saveAuthData() {
+    const authInformation = this.getAuthData();
+    if (authInformation) {
+      const now = new Date();
+      const expiresIn =
+        authInformation.expirationDate.getTime() - now.getTime();
+      if (expiresIn > 0) {
+        this.token = authInformation.token!;
+        this.isAuth = true;
+        this.isAuthListner.next(true);
+        this.logOutTimer(expiresIn / 1000);
+      }
+    }
+  }
+
+  private setAuthCookie(token: string, expirationDate: Date) {
     localStorage.setItem('token', token);
-    localStorage.setItem('expirationDate', expirationData.toISOString());
+    localStorage.setItem('expirationDate', expirationDate.toISOString());
   }
 
   private RemoveAuthData() {
     localStorage.removeItem('token');
     localStorage.removeItem('expirationDate');
+  }
+
+  private getAuthData() {
+    const token = localStorage.getItem('token');
+    const expirationDate = localStorage.getItem('expirationDate');
+    if (!token || !expirationDate) {
+      return;
+    }
+    return {
+      token: token,
+      expirationDate: new Date(expirationDate!),
+    };
   }
 }
