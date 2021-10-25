@@ -8,6 +8,7 @@ import { AuthModel } from './authModel';
 export class AuthService {
   private token: string = '';
   private isAuthListner = new Subject<boolean>();
+  private isAuth = false;
   constructor(private http: HttpClient, private router: Router) {}
 
   getToken() {
@@ -16,6 +17,10 @@ export class AuthService {
 
   getIsAuthListner() {
     return this.isAuthListner.asObservable();
+  }
+
+  getisAuth() {
+    return this.isAuth;
   }
 
   signUp(email: string, password: string) {
@@ -39,8 +44,10 @@ export class AuthService {
       )
       .subscribe((resData) => {
         this.token = resData.token;
-
-        this.isAuthListner.next(true);
+        if (this.token) {
+          this.isAuth = true;
+          this.isAuthListner.next(true);
+        }
         this.router.navigate(['/']);
       });
   }

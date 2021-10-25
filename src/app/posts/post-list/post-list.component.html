@@ -7,7 +7,7 @@
         <div class="image-container">
             <img [src]="item.image" [alt]="item.title" />
         </div>
-        <mat-action-row>
+        <mat-action-row *ngIf="isUserAuthenticate">
             <button mat-raised-button color="primary" [routerLink]="['/edit', item.id]">
         Edit
       </button>
