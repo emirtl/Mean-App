@@ -19,7 +19,7 @@
 }
 
 mat-expansion-panel {
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(240, 239, 239);
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     color: black;
 }
@@ -34,8 +34,8 @@ mat-expansion-panel p {
 }
 
 mat-expansion-panel-header {
-    background-color: #4b0082 !important;
-    color: white;
+    background-color: #ffffff !important;
+    color: rgb(43, 43, 43);
 }
 
 mat-expansion-panel-header p {
