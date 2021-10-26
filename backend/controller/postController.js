@@ -103,7 +103,7 @@ exports.editPost = async(req, res, next) => {
             post.creator = req.userId;
             const result = await post.save();
             if (!result) {
-                return res.status(200).json({
+                return res.status(500).json({
                     message: "editing post failed.pls try later",
                 });
             }
@@ -130,8 +130,8 @@ exports.deletePost = async(req, res, next) => {
     try {
         const result = await Post.deleteOne({ _id: postId, creator: req.userId });
         if (!result) {
-            return res.status(200).json({
-                message: "deletion post failed . pls try later",
+            return res.status(401).json({
+                message: "deletion post failed . you are not authorized",
             });
         }
         return res.status(200).json({

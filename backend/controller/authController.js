@@ -9,13 +9,13 @@ exports.signup = async(req, res, next) => {
         const existingUser = await UserModel.findOne({ email: email }).exec();
         if (existingUser) {
             return res.status(401).json({
-                message: "user with thease credentials already exists",
+                message: "User with thease credentials already exists",
             });
         } else {
             const hash = await bcrypt.hash(password, 12);
             if (!hash) {
                 return res.status(400).json({
-                    message: "sth went wrong please try again",
+                    message: "sth went wrong . please try again",
                 });
             }
             const user = new UserModel({
@@ -26,7 +26,9 @@ exports.signup = async(req, res, next) => {
             return res.status(201).json({ message: "user created successfully" });
         }
     } catch (error) {
-        return res.status(500).json({ message: "sth went wrong please try again" });
+        return res
+            .status(500)
+            .json({ message: "Something went wrong . please try again" });
     }
 };
 exports.login = async(req, res, next) => {
