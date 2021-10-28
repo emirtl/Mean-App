@@ -15,14 +15,14 @@ export class PostService {
     totalPostItems: number;
   }>();
   constructor(
-    private httpClient: HttpClient,
+    private http: HttpClient,
     private authService: AuthService,
     private router: Router
   ) {}
 
   getPosts(pageSize: number, pageIndex: number) {
     const query = `?pageIndex=${pageIndex}&pageSize=${pageSize}`;
-    return this.httpClient
+    return this.http
       .get<{
         message: string;
         posts: any;
@@ -45,8 +45,6 @@ export class PostService {
         })
       )
       .subscribe((resData) => {
-        console.log(resData);
-
         this.posts = resData.posts;
         this.updatedPosts.next({
           posts: [...this.posts],
@@ -55,7 +53,7 @@ export class PostService {
       });
   }
   singlePost(postId: string | null) {
-    return this.httpClient.get<{ message: string; post: any }>(
+    return this.http.get<{ message: string; post: any }>(
       'http://localhost:3000/api/posts/single-post/' + postId
     );
   }
@@ -71,7 +69,7 @@ export class PostService {
     postData.append('content', post.content);
     postData.append('image', post.image, post.title);
 
-    this.httpClient
+    this.http
       .post<{ message: string; image: string }>(
         'http://localhost:3000/api/posts/post',
         postData
@@ -97,7 +95,7 @@ export class PostService {
         creator: '',
       };
     }
-    return this.httpClient
+    return this.http
       .post<{ message: string }>(
         'http://localhost:3000/api/posts/post-edit/' + postId,
         postData
@@ -108,7 +106,7 @@ export class PostService {
   }
 
   deletePost(postId: string | null) {
-    return this.httpClient.delete(
+    return this.http.delete(
       'http://localhost:3000/api/posts/delete-post/' + postId
     );
   }
