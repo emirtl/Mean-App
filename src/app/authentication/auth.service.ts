@@ -3,10 +3,12 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { AuthModel } from './authModel';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private userId: string = '';
+  private backendApiAuth = environment.backendApiAuth;
+  userId: string = '';
   private token: string = '';
   private isAuthListner = new Subject<boolean>();
   private isAuth = false;
@@ -17,7 +19,7 @@ export class AuthService {
     const authModel: AuthModel = { email: email, password: password };
     return this.http
       .post<{ message: string; user: AuthModel }>(
-        'http://localhost:3000/api/auth/signup',
+        this.backendApiAuth + 'signup',
         authModel
       )
       .subscribe((resData) => {
@@ -33,7 +35,7 @@ export class AuthService {
         token: string;
         expiresIn: number;
         userId: string;
-      }>('http://localhost:3000/api/auth/login', authModel)
+      }>(this.backendApiAuth + 'login', authModel)
       .subscribe((resData) => {
         this.token = resData.token;
         this.userId = resData.userId;

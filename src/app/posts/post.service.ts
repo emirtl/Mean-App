@@ -5,10 +5,13 @@ import { Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthService } from '../authentication/auth.service';
 import { PostModel } from './post.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class PostService {
   private posts: PostModel[] = [];
+
+  private backendApiPosts = environment.backendApiPosts;
 
   updatedPosts = new Subject<{
     posts: PostModel[];
@@ -27,7 +30,7 @@ export class PostService {
         message: string;
         posts: any;
         totalPostItems: number;
-      }>('http://localhost:3000/api/posts/getPosts' + query)
+      }>(this.backendApiPosts + 'getPosts' + query)
       .pipe(
         map((data) => {
           return {
@@ -54,7 +57,7 @@ export class PostService {
   }
   singlePost(postId: string | null) {
     return this.http.get<{ message: string; post: any }>(
-      'http://localhost:3000/api/posts/single-post/' + postId
+      this.backendApiPosts + 'single-post/' + postId
     );
   }
 
@@ -71,7 +74,7 @@ export class PostService {
 
     this.http
       .post<{ message: string; image: string }>(
-        'http://localhost:3000/api/posts/post',
+        this.backendApiPosts + 'post',
         postData
       )
       .subscribe(() => {
@@ -97,7 +100,7 @@ export class PostService {
     }
     return this.http
       .post<{ message: string }>(
-        'http://localhost:3000/api/posts/post-edit/' + postId,
+        this.backendApiPosts + 'post-edit/' + postId,
         postData
       )
       .subscribe(() => {
@@ -106,8 +109,6 @@ export class PostService {
   }
 
   deletePost(postId: string | null) {
-    return this.http.delete(
-      'http://localhost:3000/api/posts/delete-post/' + postId
-    );
+    return this.http.delete(this.backendApiPosts + 'delete-post/' + postId);
   }
 }

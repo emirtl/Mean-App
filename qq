@@ -1,0 +1,18 @@
+[33mbf9af25[m[33m ([m[1;36mHEAD -> [m[1;32mparalel-master[m[33m)[m image upload and post-list.component style done
+[33m476967f[m backend uploa imaged done
+[33m9e3be1f[m front end image upload done
+[33me527940[m[33m ([m[1;32mmaster[m[33m)[m editing post done
+[33m593cd49[m deleting post done
+[33mc4a666d[m synching formats
+[33m4c0d3c5[m adding and fetching from database completed
+[33md2b2c35[m nodemon installed
+[33maa3f727[m server initialize
+[33mb131290[m tooltip updated
+[33mcce8749[m buttons added t pannel
+[33m217ad2e[m list of post and adding post added
+[33ma12c5f2[m routing done
+[33m4d3894f[m post list added
+[33m4dd64a5[m create form added
+[33m6a1ce54[m create-post component added
+[33mfcd408c[m merged from feature/tooltip
+[33m3bf4774[m initial commit
