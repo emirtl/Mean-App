@@ -1,53 +1,30 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatCardModule } from '@angular/material/card';
-
-import { CreatePostComponent } from './posts/create-post/create-post.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SignupComponent } from './authentication/signup/signup.component';
-import { PostListComponent } from './posts/post-list/post-list.component';
-import { LoginComponent } from './authentication/login/login.component';
 import { AuthInterceptor } from './authentication/auth.interceptor';
 import { ErrorComponent } from './errorComponent/error.component';
 import { HeaderComponent } from './header/header.component';
+import { AngularMaterialModule } from './Material.module';
 import { AuthGuard } from './authentication/auth.guard';
 import { AppRoutingModule } from './app.routing.module';
 import { ErrorInterceptor } from './error.interceptor';
 import { AppComponent } from './app.component';
+import { PostsModule } from './posts/posts.module';
+import { AuthModule } from './authentication/auth.module';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    CreatePostComponent,
-    PostListComponent,
-    LoginComponent,
-    SignupComponent,
-    ErrorComponent,
-  ],
+  declarations: [AppComponent, HeaderComponent, ErrorComponent],
   imports: [
     BrowserModule,
-    ReactiveFormsModule,
-    FormsModule,
+
     HttpClientModule,
     AppRoutingModule,
     NoopAnimationsModule,
-    MatToolbarModule,
-    MatInputModule,
-    MatCardModule,
-    MatButtonModule,
-    MatExpansionModule,
-    MatPaginatorModule,
-    MatDialogModule,
+    AngularMaterialModule,
+    PostsModule,
+    AuthModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
