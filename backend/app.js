@@ -6,7 +6,10 @@ const authRoutes = require("./routes/authRoutess");
 
 const path = require("path");
 
-const URl = `mongodb+srv://Emir_Tl:PBs8GX6jNnBHx94B@main-cluster.4mfpi.mongodb.net/X-Violet?retryWrites=true&w=majority`;
+const URl =
+    "mongodb+srv://Emir_Tl:" +
+    process.env.MONGO_DB_PASS +
+    "@main-cluster.4mfpi.mongodb.net/X-Violet?retryWrites=true&w=majority";
 // mongosh "mongodb+srv://main-cluster.4mfpi.mongodb.net/myFirstDatabase" --username Emir_Tl
 
 mongoose

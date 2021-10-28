@@ -1,0 +1,6 @@
+{
+    "env": {
+        "MONGO_DB_PASS": "PBs8GX6jNnBHx94B",
+        "JWT_S_KEY": "GyOBOurZYjHoya1VeJJ3bniL4NRf8U1kENdFR1AhM33gwak2rZsvwoiN16L7XyWzcEYzVaENz0XoZiGRAK28KO2qBIzqOgOCMX0OGnmvJwYtBtAJiO3UoApiLg5JNnQIfdAyrOyWjogCtlEmir"
+    }
+}

@@ -10,10 +10,7 @@ module.exports = (req, res, next) => {
     }
     let decodedToken;
     try {
-        decodedToken = jwt.verify(
-            token,
-            "GyOBOurZYjHoya1VeJJ3bniL4NRf8U1kENdFR1AhM33gwak2rZsvwoiN16L7XyWzcEYzVaENz0XoZiGRAK28KO2qBIzqOgOCMX0OGnmvJwYtBtAJiO3UoApiLg5JNnQIfdAyrOyWjogCtlEmir"
-        );
+        decodedToken = jwt.verify(token, process.env.JWT_S_KEY);
     } catch (error) {
         return res
             .json(500)

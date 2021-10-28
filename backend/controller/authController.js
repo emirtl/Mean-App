@@ -48,7 +48,7 @@ exports.login = async(req, res, next) => {
                     .json({ message: "user with thease credentials doenst exists" });
             }
             const token = await jwt.sign({ userId: existingUser._id, email: existingUser.email },
-                "GyOBOurZYjHoya1VeJJ3bniL4NRf8U1kENdFR1AhM33gwak2rZsvwoiN16L7XyWzcEYzVaENz0XoZiGRAK28KO2qBIzqOgOCMX0OGnmvJwYtBtAJiO3UoApiLg5JNnQIfdAyrOyWjogCtlEmir", { expiresIn: "1h" }
+                process.env.JWT_S_KEY, { expiresIn: "1h" }
             );
             return res.status(200).json({
                 message: "logged in successfully",
