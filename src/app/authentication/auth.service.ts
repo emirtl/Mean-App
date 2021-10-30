@@ -46,7 +46,6 @@ export class AuthService {
           const now = new Date();
           const expirationDate = new Date(now.getTime() + expiresIn * 1000);
           this.setAuthCookie(this.token, expirationDate, this.userId);
-          console.log(expirationDate);
           this.isAuth = true;
           this.isAuthListner.next(true);
         }
